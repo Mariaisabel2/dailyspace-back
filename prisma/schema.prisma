@@ -1,0 +1,71 @@
+// Prisma Schema para DailySpace Backend
+// Entrega 3 - Arquitectura en 4 Capas con PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  admin
+  user
+}
+
+enum PostVisibility {
+  Publico @map("Público")
+  Privado
+}
+
+// 1. Tabla de Usuarios
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  password  String    // Hash generado con bcryptjs
+  role      Role      @default(user)
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  // Relación con comentarios (interacciones)
+  comments  Comment[]
+
+  @@map("users")
+}
+
+// 2. Tabla del Catálogo de la Entrega 1 (Publicaciones / Entradas del diario)
+model Post {
+  id         Int            @id @default(autoincrement())
+  author     String
+  title      String
+  media      String         // URL o ruta del archivo de imagen
+  content    String         @db.Text
+  visibility PostVisibility @default(Publico)
+  likes      Int            @default(0)
+  createdAt  DateTime       @default(now()) @map("created_at")
+  updatedAt  DateTime       @updatedAt @map("updated_at")
+
+  // Relación con comentarios (interacciones)
+  comments   Comment[]
+
+  @@map("posts")
+}
+
+// 3. Tabla de Interacción que relaciona Usuario con el Catálogo (Comentarios)
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Llave foránea hacia User
+  userId    Int      @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Llave foránea hacia Post (Catálogo)
+  postId    Int      @map("post_id")
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@map("comments")
+}
