@@ -66,11 +66,14 @@ src/
 3. Configura las variables de entorno en un archivo `.env`:
    ```env
    PORT=4000
-   NODE_ENV=development
-   DATABASE_URL="postgresql://usuario:password@localhost:5432/dailyspace_db?schema=public"
-   JWT_SECRET="dailyspace_super_secret_jwt_key_2026"
-   JWT_EXPIRES_IN="7d"
-   FRONTEND_URL="http://localhost:3000"
+NODE_ENV=development
+# Conexión vía pooler transaccional (puerto 6543)
+DATABASE_URL="postgresql://postgres.ejlsssdxgiityzseonsr:Emiliano248224.@aws-0-us-east-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
+# Conexión directa para migraciones y seeds (puerto 5432)
+DIRECT_URL="postgresql://postgres.ejlsssdxgiityzseonsr:Emiliano248224.@aws-0-us-east-1.pooler.supabase.com:5432/postgres"
+JWT_SECRET="dailyspace_jwt_secret_dev_key_2026"
+JWT_EXPIRES_IN="7d"
+FRONTEND_URL="http://localhost:3000"
    ```
 4. Aplica las migraciones o genera el cliente de Prisma:
    ```bash
