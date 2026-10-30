@@ -117,8 +117,16 @@ En el frontend se maneja una estrategia dual: `localStorage` para llamadas desde
 - **Qué se tuvo que corregir:** Se ajustó la firma del token para garantizar que el payload no incluyera campos sensibles de la entidad de usuario y se encapsuló estrictamente el mapeo del enum de visibilidad (`Publico` en Prisma vs `Público` en el dominio de la Entrega 1).
 
 ---
+## 5. ## 🔑 Credenciales de Prueba (Roles del Sistema)
 
-## 📡 5. Resumen de Endpoints de la API
+Para la evaluación y prueba de permisos por rol, la base de datos cuenta con los siguientes usuarios iniciales generados en el seed:
+
+| Rol | Correo Electrónico | Contraseña | Permisos en la Plataforma |
+| :--- | :--- | :--- | :--- |
+| **Administrador (`admin`)** | `admin@dailyspace.com` | `Admin123!` | Acceso completo al panel administrativo (`/admin`), CRUD total del catálogo de publicaciones (`POST`, `PUT`, `DELETE /api/posts`), eliminar entradas con modal de confirmación y listar todos los comentarios. |
+| **Usuario Estándar (`user`)** | `user@dailyspace.com` | `User123!` | Explorar el catálogo público, dar likes a publicaciones, crear comentarios (`POST /api/comments`) y gestionar su historial en `/mis-comentarios` (`GET /api/comments/mias`). |
+
+## 📡 6. Resumen de Endpoints de la API
 
 | Método | Ruta | Acceso | Descripción |
 | :--- | :--- | :--- | :--- |
