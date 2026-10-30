@@ -4,6 +4,7 @@ import { GetPostByIdUseCase } from "../../application/use-cases/posts/GetPostByI
 import { CreatePostUseCase } from "../../application/use-cases/posts/CreatePostUseCase.js";
 import { UpdatePostUseCase } from "../../application/use-cases/posts/UpdatePostUseCase.js";
 import { DeletePostUseCase } from "../../application/use-cases/posts/DeletePostUseCase.js";
+import { IncrementLikesUseCase } from "../../application/use-cases/posts/IncrementLikesUseCase.js";
 import {
   getPostsQuerySchema,
   postIdParamSchema,
@@ -18,7 +19,8 @@ export class PostController {
     private readonly getPostByIdUseCase: GetPostByIdUseCase,
     private readonly createPostUseCase: CreatePostUseCase,
     private readonly updatePostUseCase: UpdatePostUseCase,
-    private readonly deletePostUseCase: DeletePostUseCase
+    private readonly deletePostUseCase: DeletePostUseCase,
+    private readonly incrementLikesUseCase?: IncrementLikesUseCase
   ) {}
 
   getAll = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -104,6 +106,24 @@ export class PostController {
 
       await this.deletePostUseCase.execute(paramValidation.data.id);
       res.status(200).json({ message: "Publicación eliminada correctamente" });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  like = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      const paramValidation = postIdParamSchema.safeParse(req.params);
+      if (!paramValidation.success) {
+        throw new BadRequestError("ID de publicación inválido");
+      }
+
+      if (!this.incrementLikesUseCase) {
+        throw new BadRequestError("Funcionalidad de likes no configurada");
+      }
+
+      const likes = await this.incrementLikesUseCase.execute(paramValidation.data.id);
+      res.status(200).json({ likes });
     } catch (error) {
       next(error);
     }

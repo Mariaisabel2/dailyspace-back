@@ -5,6 +5,7 @@ import { PrismaPostRepository } from "../../infrastructure/repositories/PrismaPo
 import { CreateCommentUseCase } from "../../application/use-cases/comments/CreateCommentUseCase.js";
 import { GetMyCommentsUseCase } from "../../application/use-cases/comments/GetMyCommentsUseCase.js";
 import { GetAllCommentsUseCase } from "../../application/use-cases/comments/GetAllCommentsUseCase.js";
+import { DeleteCommentUseCase } from "../../application/use-cases/comments/DeleteCommentUseCase.js";
 import { authenticateToken, soloAdmin } from "../middlewares/authMiddleware.js";
 
 const commentRouter = Router();
@@ -15,11 +16,13 @@ const postRepository = new PrismaPostRepository();
 const createCommentUseCase = new CreateCommentUseCase(commentRepository, postRepository);
 const getMyCommentsUseCase = new GetMyCommentsUseCase(commentRepository);
 const getAllCommentsUseCase = new GetAllCommentsUseCase(commentRepository);
+const deleteCommentUseCase = new DeleteCommentUseCase(commentRepository);
 
 const commentController = new CommentController(
   createCommentUseCase,
   getMyCommentsUseCase,
-  getAllCommentsUseCase
+  getAllCommentsUseCase,
+  deleteCommentUseCase
 );
 
 // Endpoints de interacción (Rúbrica)
@@ -31,5 +34,8 @@ commentRouter.get("/mias", authenticateToken, commentController.getMyComments);
 
 // 3. GET /api/comments: Solo admin (todas las interacciones)
 commentRouter.get("/", authenticateToken, soloAdmin, commentController.getAll);
+
+// 4. DELETE /api/comments/:id: Usuario autenticado (dueño del comentario o admin)
+commentRouter.delete("/:id", authenticateToken, commentController.delete);
 
 export default commentRouter;

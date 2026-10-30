@@ -6,6 +6,7 @@ import { GetPostByIdUseCase } from "../../application/use-cases/posts/GetPostByI
 import { CreatePostUseCase } from "../../application/use-cases/posts/CreatePostUseCase.js";
 import { UpdatePostUseCase } from "../../application/use-cases/posts/UpdatePostUseCase.js";
 import { DeletePostUseCase } from "../../application/use-cases/posts/DeletePostUseCase.js";
+import { IncrementLikesUseCase } from "../../application/use-cases/posts/IncrementLikesUseCase.js";
 import { authenticateToken, soloAdmin } from "../middlewares/authMiddleware.js";
 
 const postRouter = Router();
@@ -17,18 +18,21 @@ const getPostByIdUseCase = new GetPostByIdUseCase(postRepository);
 const createPostUseCase = new CreatePostUseCase(postRepository);
 const updatePostUseCase = new UpdatePostUseCase(postRepository);
 const deletePostUseCase = new DeletePostUseCase(postRepository);
+const incrementLikesUseCase = new IncrementLikesUseCase(postRepository);
 
 const postController = new PostController(
   getPostsUseCase,
   getPostByIdUseCase,
   createPostUseCase,
   updatePostUseCase,
-  deletePostUseCase
+  deletePostUseCase,
+  incrementLikesUseCase
 );
 
 // Endpoints públicos del catálogo
 postRouter.get("/", postController.getAll);
 postRouter.get("/:id", postController.getById);
+postRouter.post("/:id/like", postController.like);
 
 // Endpoints protegidos solo para Administrador (Rúbrica: POST, PUT, DELETE solo admin)
 postRouter.post("/", authenticateToken, soloAdmin, postController.create);
