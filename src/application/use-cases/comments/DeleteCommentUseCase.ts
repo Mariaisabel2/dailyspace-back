@@ -18,3 +18,4 @@ export class DeleteCommentUseCase {
     await this.commentRepository.delete(commentId);
   }
 }
+

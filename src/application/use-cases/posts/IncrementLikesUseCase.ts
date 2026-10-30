@@ -12,3 +12,4 @@ export class IncrementLikesUseCase {
     return likes;
   }
 }
+
