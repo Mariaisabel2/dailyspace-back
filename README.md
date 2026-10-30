@@ -91,21 +91,7 @@ src/
    ```bash
    npm test
    ```
-
----
-
-## 🔑 4. Credenciales de Prueba del Seed
-
-El seed inicial crea dos usuarios con contraseñas encriptadas con `bcryptjs`:
-
-| Rol | Correo Electrónico | Contraseña | Permisos en la API |
-| :--- | :--- | :--- | :--- |
-| **Administrador (`admin`)** | `admin@dailyspace.com` | `Admin123!` | CRUD completo del catálogo (`POST`, `PUT`, `DELETE /api/posts`), consulta de todos los comentarios (`GET /api/comments`). |
-| **Usuario Estándar (`user`)** | `user@dailyspace.com` | `User123!` | Crear comentarios (`POST /api/comments`), consultar los suyos (`GET /api/comments/mias`), lectura del catálogo (`GET /api/posts`). |
-
----
-
-## 🧠 5. Decisiones Técnicas (En palabras propias)
+## 🧠 4. Decisiones Técnicas (En palabras propias)
 
 ### 1. Flujo completo de un login: desde el formulario hasta que una ruta protegida responde
 1. **Envío de credenciales:** El cliente envía una petición `POST /api/auth/login` con `{ email, password }`.
@@ -129,7 +115,7 @@ En el frontend se maneja una estrategia dual: `localStorage` para llamadas desde
 
 ---
 
-## 📡 6. Resumen de Endpoints de la API
+## 📡 5. Resumen de Endpoints de la API
 
 | Método | Ruta | Acceso | Descripción |
 | :--- | :--- | :--- | :--- |
