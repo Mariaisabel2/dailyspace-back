@@ -142,3 +142,12 @@ Para la evaluación y prueba de permisos por rol, la base de datos cuenta con lo
 | **GET** | `/api/comments/mias` | Autenticado | Obtener únicamente las interacciones del usuario activo |
 | **GET** | `/api/comments` | Solo Admin | Listar todas las interacciones de la plataforma |
 | **GET** | `/health` | Público | Estado de salud del servicio |
+
+---
+
+## 🌐 7. Evidencia de Conexión y Peticiones Reales de Red (Network)
+
+Demostración de la comunicación cliente-servidor en tiempo real entre el Frontend desplegado y la API REST en Render (`https://dailyspace-back.onrender.com`), respondiendo con código HTTP `200 OK` y consumiendo la base de datos real:
+
+![Pestaña Network - Consumo real de la API REST](docs/network-proof.jpg)
+
