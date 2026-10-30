@@ -2,8 +2,8 @@
 
 **Estudiante:** Mariaisabel Zuluaga Quintero  
 **Curso:** Desarrollo Web · Semestre 2026-2 · Universidad de Medellín  
-**Despliegue de la API (Render/Railway):** [https://dailyspace-back.onrender.com](https://dailyspace-back.onrender.com) *(Pendiente enlace final de entrega)*  
-**Frontend Desplegado (Vercel):** [https://dailyspace-front.vercel.app](https://dailyspace-front.vercel.app) *(Pendiente enlace final de entrega)*  
+**Despliegue de la API (Render):** [[https://dailyspace-back.onrender.com](https://dailyspace-back.onrender.com)](https://dailyspace-back.onrender.com)
+**Frontend Desplegado (Vercel):** [dailyspace-front.vercel.app](https://dailyspace-front.vercel.app) 
 
 ---
 
