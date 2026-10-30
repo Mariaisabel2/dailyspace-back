@@ -34,8 +34,11 @@ postRouter.get("/", postController.getAll);
 postRouter.get("/:id", postController.getById);
 postRouter.post("/:id/like", postController.like);
 
-// Endpoints protegidos solo para Administrador (Rúbrica: POST, PUT, DELETE solo admin)
-postRouter.post("/", authenticateToken, soloAdmin, postController.create);
+// Endpoints de catálogo
+// POST /api/posts: Permitido para usuarios autenticados (admin o usuario normal)
+postRouter.post("/", authenticateToken, postController.create);
+
+// PUT y DELETE: Exclusivos de administrador (Rúbrica: edición y eliminación del catálogo solo admin)
 postRouter.put("/:id", authenticateToken, soloAdmin, postController.update);
 postRouter.delete("/:id", authenticateToken, soloAdmin, postController.delete);
 

@@ -5,6 +5,7 @@ import { CreatePostUseCase } from "../../application/use-cases/posts/CreatePostU
 import { UpdatePostUseCase } from "../../application/use-cases/posts/UpdatePostUseCase.js";
 import { DeletePostUseCase } from "../../application/use-cases/posts/DeletePostUseCase.js";
 import { IncrementLikesUseCase } from "../../application/use-cases/posts/IncrementLikesUseCase.js";
+import { PrismaUserRepository } from "../../infrastructure/repositories/PrismaUserRepository.js";
 import {
   getPostsQuerySchema,
   postIdParamSchema,
@@ -62,7 +63,13 @@ export class PostController {
         );
       }
 
-      const author = req.user ? `admin_${req.user.id}` : "mariaisabel";
+      let author = "mariaisabel";
+      if (req.user) {
+        const userRepo = new PrismaUserRepository();
+        const userFound = await userRepo.findById(req.user.id);
+        author = userFound ? userFound.name : `user_${req.user.id}`;
+      }
+
       const newPost = await this.createPostUseCase.execute({
         author,
         ...bodyValidation.data,
