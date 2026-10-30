@@ -28,7 +28,9 @@ export class PrismaPostRepository implements IPostRepository {
     likes: number;
     createdAt: Date;
     updatedAt: Date;
+    comments?: { content: string }[];
   }): PostEntity {
+    const commentsList = post.comments ? post.comments.map((c) => c.content) : [];
     return new PostEntity(
       post.id,
       post.author,
@@ -38,7 +40,8 @@ export class PrismaPostRepository implements IPostRepository {
       this.mapVisibilityToDomain(post.visibility),
       post.likes,
       post.createdAt,
-      post.updatedAt
+      post.updatedAt,
+      commentsList
     );
   }
 
@@ -70,6 +73,12 @@ export class PrismaPostRepository implements IPostRepository {
         skip,
         take: limit,
         orderBy: { createdAt: "desc" },
+        include: {
+          comments: {
+            select: { content: true },
+            orderBy: { createdAt: "asc" },
+          },
+        },
       }),
     ]);
 
@@ -87,7 +96,15 @@ export class PrismaPostRepository implements IPostRepository {
   }
 
   async findById(id: number): Promise<PostEntity | null> {
-    const post = await prisma.post.findUnique({ where: { id } });
+    const post = await prisma.post.findUnique({
+      where: { id },
+      include: {
+        comments: {
+          select: { content: true },
+          orderBy: { createdAt: "asc" },
+        },
+      },
+    });
     if (!post) return null;
     return this.mapToEntity(post);
   }

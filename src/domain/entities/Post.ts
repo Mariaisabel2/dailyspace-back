@@ -10,6 +10,7 @@ export class PostEntity {
     public readonly visibility: PostVisibility,
     public readonly likes: number,
     public readonly createdAt: Date,
-    public readonly updatedAt: Date
+    public readonly updatedAt: Date,
+    public readonly comments: string[] = []
   ) {}
 }
